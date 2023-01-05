@@ -49,9 +49,11 @@ export default class EllipticalRoiTool extends BaseAnnotationTool {
       configuration: {
         // showMinMax: false,
         // showHounsfieldUnits: true,
+        drawEllipseHandles: false,
         drawHandlesOnHover: false,
         hideHandlesIfMoving: false,
         renderDashed: false,
+        displayStats: false,
       },
       svgCursor: ellipticalRoiCursor,
     };
@@ -200,6 +202,8 @@ export default class EllipticalRoiTool extends BaseAnnotationTool {
       drawHandlesOnHover,
       hideHandlesIfMoving,
       renderDashed,
+      drawEllipseHandles,
+      displayStats,
     } = this.configuration;
     const context = getNewContext(eventData.canvasContext.canvas);
     const { rowPixelSpacing, colPixelSpacing } = getPixelSpacing(image);
@@ -249,10 +253,12 @@ export default class EllipticalRoiTool extends BaseAnnotationTool {
           'pixel',
           data.handles.initialRotation
         );
-        drawHandles(context, eventData, data.handles, handleOptions);
+        if (drawEllipseHandles) {
+          drawHandles(context, eventData, data.handles, handleOptions);
+        }
 
         // Update textbox stats
-        if (data.invalidated === true) {
+        if (data.invalidated === true && displayStats) {
           if (data.cachedStats) {
             this.throttledUpdateCachedStats(image, element, data);
           } else {
@@ -362,6 +368,10 @@ function _createTextBoxContent(
 ) {
   const showMinMax = options.showMinMax || false;
   const textLines = [];
+
+  if (!options.displayStats) {
+    return textLines;
+  }
 
   // Don't display mean/standardDev for color images
   const otherLines = [];
