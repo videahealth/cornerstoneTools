@@ -239,7 +239,7 @@ export default class EllipticalRoiTool extends BaseAnnotationTool {
 
         const ellipseOptions = { color };
 
-        if (renderDashed || data.dashed) {
+        if (renderDashed || data.dashedBorder) {
           ellipseOptions.lineDash = lineDash;
         }
 
