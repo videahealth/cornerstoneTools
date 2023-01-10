@@ -49,7 +49,7 @@ export default class EllipticalRoiTool extends BaseAnnotationTool {
       configuration: {
         // showMinMax: false,
         // showHounsfieldUnits: true,
-        drawEllipseHandles: false,
+        drawHandles: false,
         drawHandlesOnHover: false,
         hideHandlesIfMoving: false,
         renderDashed: false,
@@ -202,8 +202,6 @@ export default class EllipticalRoiTool extends BaseAnnotationTool {
       drawHandlesOnHover,
       hideHandlesIfMoving,
       renderDashed,
-      drawEllipseHandles,
-      displayStats,
     } = this.configuration;
     const context = getNewContext(eventData.canvasContext.canvas);
     const { rowPixelSpacing, colPixelSpacing } = getPixelSpacing(image);
@@ -253,12 +251,12 @@ export default class EllipticalRoiTool extends BaseAnnotationTool {
           'pixel',
           data.handles.initialRotation
         );
-        if (drawEllipseHandles) {
+        if (this.configuration.drawHandles) {
           drawHandles(context, eventData, data.handles, handleOptions);
         }
 
         // Update textbox stats
-        if (data.invalidated === true && displayStats) {
+        if (data.invalidated === true) {
           if (data.cachedStats) {
             this.throttledUpdateCachedStats(image, element, data);
           } else {
@@ -288,19 +286,20 @@ export default class EllipticalRoiTool extends BaseAnnotationTool {
         );
 
         data.unit = _getUnit(modality, this.configuration.showHounsfieldUnits);
-
-        drawLinkedTextBox(
-          context,
-          element,
-          data.handles.textBox,
-          textBoxContent,
-          data.handles,
-          textBoxAnchorPoints,
-          color,
-          lineWidth,
-          10,
-          true
-        );
+        if (this.configuration.displayStats) {
+          drawLinkedTextBox(
+            context,
+            element,
+            data.handles.textBox,
+            textBoxContent,
+            data.handles,
+            textBoxAnchorPoints,
+            color,
+            lineWidth,
+            10,
+            true
+          );
+        }
       }
     });
   }
@@ -369,9 +368,7 @@ function _createTextBoxContent(
   const showMinMax = options.showMinMax || false;
   const textLines = [];
 
-  if (!options.displayStats) {
-    return textLines;
-  }
+  return textLines;
 
   // Don't display mean/standardDev for color images
   const otherLines = [];
