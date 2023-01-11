@@ -49,7 +49,7 @@ export default class EllipticalRoiTool extends BaseAnnotationTool {
       configuration: {
         // showMinMax: false,
         // showHounsfieldUnits: true,
-        drawHandles: false,
+        drawHandles: true,
         drawHandlesOnHover: false,
         hideHandlesIfMoving: false,
         renderDashed: false,
@@ -367,8 +367,6 @@ function _createTextBoxContent(
 ) {
   const showMinMax = options.showMinMax || false;
   const textLines = [];
-
-  return textLines;
 
   // Don't display mean/standardDev for color images
   const otherLines = [];
