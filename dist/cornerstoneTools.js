@@ -1,4 +1,4 @@
-/*! cornerstone-tools - 6.0.6-e - 2023-01-11 | (c) 2017 Chris Hafey | https://github.com/cornerstonejs/cornerstoneTools */
+/*! cornerstone-tools - 6.0.6-e - 2023-02-01 | (c) 2017 Chris Hafey | https://github.com/cornerstonejs/cornerstoneTools */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "18c1d53c08779f6e2e6d";
+/******/ 	var hotCurrentHash = "8db9c2a456ff09e09283";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -3807,12 +3807,16 @@ var logger = Object(_util_logger_js__WEBPACK_IMPORTED_MODULE_4__["getLogger"])('
   Object(_stateManagement_toolState_js__WEBPACK_IMPORTED_MODULE_2__["addToolState"])(element, tool.name, measurementData);
   _externalModules_js__WEBPACK_IMPORTED_MODULE_1__["default"].cornerstone.updateImage(element);
   var handleMover = Object.keys(measurementData.handles).length === 1 ? _manipulators_index_js__WEBPACK_IMPORTED_MODULE_3__["moveHandle"] : _manipulators_index_js__WEBPACK_IMPORTED_MODULE_3__["moveNewHandle"];
+  var timestamp = new Date().getTime();
   handleMover(eventData, tool.name, measurementData, measurementData.handles.end, tool.options, 'mouse', function (success) {
     if (measurementData.cancelled) {
       return;
     }
 
-    if (success) {
+    var hasThreshold = tool.configuration && Object(tool.configuration).hasOwnProperty('measurementCreationThreshold');
+    var isTooFast = hasThreshold ? new Date().getTime() - timestamp < tool.configuration.measurementCreationThreshold : false;
+
+    if (success && isTooFast === false) {
       var eventType = _events_js__WEBPACK_IMPORTED_MODULE_0__["default"].MEASUREMENT_COMPLETED;
       var _eventData = {
         toolName: tool.name,
@@ -7667,7 +7671,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     });
   } else {
-    // defaultConfiguration is an object, default to assigning it to globalConfiguration.
+    // DefaultConfiguration is an object, default to assigning it to globalConfiguration.
     globalConfigurationModule.configuration = Object.assign({}, globalConfigurationModule.configuration, defaultConfiguration);
   }
 
@@ -10976,7 +10980,7 @@ function newImageIdSpecificToolStateManager() {
 
 
   function setImageIdToolState(imageId, toolName, data) {
-    var imageIdToolState = toolState[imageId]; // set the toolState
+    var imageIdToolState = toolState[imageId]; // Set the toolState
 
     imageIdToolState[toolName] = data;
   } // Clears all tool data from this toolStateManager.
@@ -12550,10 +12554,10 @@ function enabledElementCallback(element) {
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   setters: {
-    // add/remove
+    // Add/remove
     addActiveManipulatorForElement: addActiveManipulatorForElement,
     removeActiveManipulatorForElement: removeActiveManipulatorForElement,
-    // cancel
+    // Cancel
     cancelActiveManipulatorsForElement: cancelActiveManipulatorsForElement,
     cancelActiveManipulators: cancelActiveManipulators
   },
@@ -19549,7 +19553,10 @@ var OverlayTool = /*#__PURE__*/function (_BaseTool) {
   }, {
     key: "setupRender",
     value: function setupRender(image) {
-      if (!image) return;
+      if (!image) {
+        return;
+      }
+
       var overlayPlaneMetadata = _externalModules_js__WEBPACK_IMPORTED_MODULE_6__["default"].cornerstone.metaData.get('overlayPlaneModule', image.imageId);
 
       if (!overlayPlaneMetadata || !overlayPlaneMetadata.overlays || !overlayPlaneMetadata.overlays.length) {
@@ -19566,7 +19573,10 @@ var OverlayTool = /*#__PURE__*/function (_BaseTool) {
       } // Allow turning off overlays by setting overlayColor to false
 
 
-      if (viewport.overlayColor === false) return;
+      if (viewport.overlayColor === false) {
+        return;
+      }
+
       return true;
     }
   }, {
@@ -19583,7 +19593,10 @@ var OverlayTool = /*#__PURE__*/function (_BaseTool) {
         return;
       }
 
-      if (!this.setupViewport(viewport)) return;
+      if (!this.setupViewport(viewport)) {
+        return;
+      }
+
       var imageWidth = image.columns;
       var imageHeight = image.rows;
       overlayPlaneMetadata.overlays.forEach(function (overlay) {
@@ -22898,6 +22911,7 @@ var CircleRoiTool = /*#__PURE__*/function (_BaseAnnotationTool) {
       supportedInteractionTypes: ['Mouse', 'Touch'],
       svgCursor: _cursors_index_js__WEBPACK_IMPORTED_MODULE_19__["circleRoiCursor"],
       configuration: {
+        centerPointRadius: 0,
         renderDashed: false,
         hideHandlesIfMoving: false
       }
@@ -23004,7 +23018,8 @@ var CircleRoiTool = /*#__PURE__*/function (_BaseAnnotationTool) {
           handleRadius = _this$configuration.handleRadius,
           drawHandlesOnHover = _this$configuration.drawHandlesOnHover,
           hideHandlesIfMoving = _this$configuration.hideHandlesIfMoving,
-          renderDashed = _this$configuration.renderDashed;
+          renderDashed = _this$configuration.renderDashed,
+          centerPointRadius = _this$configuration.centerPointRadius;
       var newContext = Object(_drawing_index_js__WEBPACK_IMPORTED_MODULE_11__["getNewContext"])(canvasContext.canvas);
 
       var _getPixelSpacing = Object(_util_getPixelSpacing__WEBPACK_IMPORTED_MODULE_18__["default"])(image),
@@ -23049,6 +23064,16 @@ var CircleRoiTool = /*#__PURE__*/function (_BaseAnnotationTool) {
 
 
           Object(_drawing_index_js__WEBPACK_IMPORTED_MODULE_11__["drawCircle"])(context, element, data.handles.start, radius, circleOptions, 'pixel');
+
+          if (centerPointRadius && radius > 3 * centerPointRadius) {
+            Object(_drawing_index_js__WEBPACK_IMPORTED_MODULE_11__["drawCircle"])(context, element, data.handles.start, centerPointRadius, circleOptions, 'pixel');
+          }
+
+          if (data.handles) {
+            data.handles.start.drawnIndependently = true;
+            data.handles.end.drawnIndependently = true;
+          }
+
           Object(_drawing_index_js__WEBPACK_IMPORTED_MODULE_11__["drawHandles"])(context, eventData, data.handles, handleOptions); // Update textbox stats
 
           if (data.invalidated === true) {
@@ -23135,12 +23160,22 @@ function _getUnit(modality, showHounsfieldUnits) {
 
 function _createTextBoxContent(context, isColorImage) {
   var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
-      area = _ref.area,
-      mean = _ref.mean,
-      stdDev = _ref.stdDev,
-      min = _ref.min,
-      max = _ref.max,
-      meanStdDevSUV = _ref.meanStdDevSUV;
+      _ref$area = _ref.area,
+      area = _ref$area === void 0 ? 0 : _ref$area,
+      _ref$radius = _ref.radius,
+      radius = _ref$radius === void 0 ? 0 : _ref$radius,
+      _ref$perimeter = _ref.perimeter,
+      perimeter = _ref$perimeter === void 0 ? 0 : _ref$perimeter,
+      _ref$mean = _ref.mean,
+      mean = _ref$mean === void 0 ? 0 : _ref$mean,
+      _ref$stdDev = _ref.stdDev,
+      stdDev = _ref$stdDev === void 0 ? 0 : _ref$stdDev,
+      _ref$min = _ref.min,
+      min = _ref$min === void 0 ? 0 : _ref$min,
+      _ref$max = _ref.max,
+      max = _ref$max === void 0 ? 0 : _ref$max,
+      _ref$meanStdDevSUV = _ref.meanStdDevSUV,
+      meanStdDevSUV = _ref$meanStdDevSUV === void 0 ? 0 : _ref$meanStdDevSUV;
 
   var modality = arguments.length > 3 ? arguments[3] : undefined;
   var hasPixelSpacing = arguments.length > 4 ? arguments[4] : undefined;
@@ -23189,6 +23224,15 @@ function _createTextBoxContent(context, isColorImage) {
   }
 
   textLines.push(_formatArea(area, hasPixelSpacing));
+
+  if (radius) {
+    textLines.push(_formatLength(radius, 'Radius', hasPixelSpacing));
+  }
+
+  if (perimeter) {
+    textLines.push(_formatLength(perimeter, 'Perimeter', hasPixelSpacing));
+  }
+
   otherLines.forEach(function (x) {
     return textLines.push(x);
   });
@@ -23207,6 +23251,15 @@ function _formatArea(area, hasPixelSpacing) {
   // This uses Char code 178 for a superscript 2
   var suffix = hasPixelSpacing ? " mm".concat(String.fromCharCode(178)) : " px".concat(String.fromCharCode(178));
   return "Area: ".concat(Object(_util_numbersWithCommas_js__WEBPACK_IMPORTED_MODULE_15__["default"])(area.toFixed(2))).concat(suffix);
+}
+
+function _formatLength(value, name, hasPixelSpacing) {
+  if (!value) {
+    return '';
+  }
+
+  var suffix = hasPixelSpacing ? ' mm' : ' px';
+  return "".concat(name, ": ").concat(Object(_util_numbersWithCommas_js__WEBPACK_IMPORTED_MODULE_15__["default"])(value.toFixed(1))).concat(suffix);
 }
 /**
  *
@@ -23236,9 +23289,13 @@ function _calculateStats(image, element, handles, modality, pixelSpacing) {
     };
   }
 
-  var area = Math.PI * (circleCoordinates.width * (pixelSpacing.colPixelSpacing || 1) / 2) * (circleCoordinates.height * (pixelSpacing.rowPixelSpacing || 1) / 2);
+  var radius = circleCoordinates.width * (pixelSpacing && pixelSpacing.colPixelSpacing || 1) / 2;
+  var perimeter = 2 * Math.PI * radius;
+  var area = Math.PI * (circleCoordinates.width * (pixelSpacing && pixelSpacing.colPixelSpacing || 1) / 2) * (circleCoordinates.height * (pixelSpacing && pixelSpacing.rowPixelSpacing || 1) / 2);
   return {
     area: area || 0,
+    radius: radius || 0,
+    perimeter: perimeter || 0,
     count: ellipseMeanStdDev.count || 0,
     mean: ellipseMeanStdDev.mean || 0,
     variance: ellipseMeanStdDev.variance || 0,
@@ -23968,7 +24025,13 @@ var EllipticalRoiTool = /*#__PURE__*/function (_BaseAnnotationTool) {
           };
 
           if (renderDashed || data.hasDashedBorder) {
-            ellipseOptions.lineDash = lineDash;
+            var dashSpacing = data.lineDash;
+
+            if (dashSpacing && Array.isArray(dashSpacing) && dashSpacing.length === 2) {
+              ellipseOptions.lineDash = dashSpacing;
+            } else {
+              ellipseOptions.lineDash = lineDash;
+            }
           } // Draw
 
 
@@ -29029,7 +29092,6 @@ __webpack_require__.r(__webpack_exports__);
 
   var context = Object(_drawing_index_js__WEBPACK_IMPORTED_MODULE_7__["getNewContext"])(canvasContext.canvas);
   var color;
-  var activeColor = _stateManagement_toolColors_js__WEBPACK_IMPORTED_MODULE_5__["default"].getActiveColor();
   var lineWidth = _stateManagement_toolStyle_js__WEBPACK_IMPORTED_MODULE_4__["default"].getToolWidth();
 
   var _loop = function _loop(i) {
@@ -29039,7 +29101,7 @@ __webpack_require__.r(__webpack_exports__);
       return "continue";
     }
 
-    color = data.active ? activeColor : _stateManagement_toolColors_js__WEBPACK_IMPORTED_MODULE_5__["default"].getToolColor(); // Calculate the data measurements
+    color = _stateManagement_toolColors_js__WEBPACK_IMPORTED_MODULE_5__["default"].getColorIfActive(data); // Calculate the data measurements
 
     if (data.invalidated === true) {
       if (data.longestDiameter && data.shortestDiameter) {
