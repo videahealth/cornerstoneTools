@@ -1,6 +1,6 @@
 {
   "name": "cornerstone-tools",
-  "version": "0.0.0-semantically-released",
+  "version": "6.0.6-e",
   "description": "Medical imaging tools for the Cornerstone library",
   "main": "./dist/cornerstoneTools.js",
   "keywords": [
@@ -21,6 +21,7 @@
   },
   "scripts": {
     "build": "npm run test && npm run clean:dist && npm run version && npm run build:prod && npm run build:dev",
+    "build:vh": "npm run test && npm run clean:dist && npm run version && npm run build:prod && npm run build:dev",
     "build:dev": "webpack --progress --config ./config/webpack/webpack-dev",
     "build:prod": "webpack --config ./config/webpack/webpack-prod",
     "commit": "git-cz",

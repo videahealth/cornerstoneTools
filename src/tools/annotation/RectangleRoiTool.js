@@ -44,8 +44,11 @@ export default class RectangleRoiTool extends BaseAnnotationTool {
       configuration: {
         drawHandles: true,
         drawHandlesOnHover: false,
+        drawStatistics: false,
         hideHandlesIfMoving: false,
         renderDashed: false,
+        mouseEditingRadius: 15,
+        touchEditingRadius: 25,
         // showMinMax: false,
         // showHounsfieldUnits: true
       },
@@ -115,7 +118,9 @@ export default class RectangleRoiTool extends BaseAnnotationTool {
       return false;
     }
 
-    const distance = interactionType === 'mouse' ? 15 : 25;
+    const { touchEditingRadius, mouseEditingRadius } = this.configuration;
+    const distance =
+      interactionType === 'mouse' ? mouseEditingRadius : touchEditingRadius;
     const startCanvas = external.cornerstone.pixelToCanvas(
       element,
       data.handles.start
@@ -225,7 +230,7 @@ export default class RectangleRoiTool extends BaseAnnotationTool {
           data.handles.initialRotation
         );
 
-        if (this.configuration.drawHandles) {
+        if (this.configuration.drawHandles && data.source !== 'AI') {
           drawHandles(context, eventData, data.handles, handleOptions);
         }
 
@@ -247,7 +252,6 @@ export default class RectangleRoiTool extends BaseAnnotationTool {
 
           Object.assign(data.handles.textBox, defaultCoords);
         }
-
         const textBoxAnchorPoints = handles =>
           _findTextBoxAnchorPoints(handles.start, handles.end);
         const textBoxContent = _createTextBoxContent(
@@ -261,18 +265,20 @@ export default class RectangleRoiTool extends BaseAnnotationTool {
 
         data.unit = _getUnit(modality, this.configuration.showHounsfieldUnits);
 
-        drawLinkedTextBox(
-          context,
-          element,
-          data.handles.textBox,
-          textBoxContent,
-          data.handles,
-          textBoxAnchorPoints,
-          color,
-          lineWidth,
-          10,
-          true
-        );
+        if (this.configuration.drawStatistics) {
+          drawLinkedTextBox(
+            context,
+            element,
+            data.handles.textBox,
+            textBoxContent,
+            data.handles,
+            textBoxAnchorPoints,
+            color,
+            lineWidth,
+            10,
+            true
+          );
+        }
       }
     });
   }

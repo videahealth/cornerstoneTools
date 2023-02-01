@@ -1,13 +1,30 @@
 <div align="center">
-<h1>cornerstone-tools</h1>
+<h1>videahealth/cornerstone-tools</h1>
 
 <p>Provides a simple, extensible framework for creating tools on top of <a href="https://github.com/cornerstonejs/cornerstone/">Cornerstone.js</a>. Includes common tool implementations, and leverages DICOM metadata (when available) for advanced functionality.</p>
 
 [**Read The Docs**](https://tools.cornerstonejs.org/) | [Edit the docs](https://github.com/cornerstonejs/cornerstoneTools/edit/master/docs/)
 
-</div>
+<h2> Videa-Specific Customizations and Notes</h2>
+Per VideaHealth specifications, a few changes are made to support:
+
+1. Adding a configuration setting for hiding metrics as freehand and rectangular annotations are drawn,
+2. Disabling the mobile drawing offset.
+3. Update `src/util/findAndMoveHelpers.js` with a custom property `isEditable`. This allows us to add a `isEditable` annotation state and disable editing of a already created annotation. Since cornerstone does not have annotation specific read only properties.
+4. Add `filledHandle` property which shows filled handles.
+5. Coming soon: Decreasing the radius around boxes that is treated as editing a particular box. This is to allow for annotating boxes more closely together.
+
+<h3>Videa Deployment Steps</h3>
+1. Run the build and update package.json to reflect the new version
+2. Commit the changes
+3. Create a release tag on Github with the version you would like. For example, 4.12.2-b. The base `x.y.z-l` follows CornerstoneTools' semantic versioning for `x.y.z`, with `l` representing the corresponding letter for how many changes have been made since the `x.y.z` release.
+</p>
+
+This concludes the Videa-specific notes.
 
 <hr />
+
+<h2>Cornerstone Community Documentation</h2>
 
 <!-- prettier-ignore-start -->
 [![Build Status][build-badge]][build]
@@ -111,6 +128,8 @@ This library has `peerDependencies` listings for:
 
 If you need to support the `IE11` Browser, you will need to provide polyfills as needed. Our BrowserList target:
 
+[**Read The Docs**](https://tools.cornerstonejs.org/) | [Edit the docs](https://github.com/cornerstonejs/cornerstoneTools/edit/master/docs/)
+
 ```json
   "browserslist": [
     "> 1%",
@@ -166,6 +185,7 @@ Thanks goes to these people ([emoji key][emojis]):
 | [<img src="https://avatars1.githubusercontent.com/u/3342530?v=4" width="100px;" alt="Kevin Lee Drum"/><br /><sub><b>Kevin Lee Drum</b></sub>](https://github.com/kevinleedrum)<br />[💻](https://github.com/cornerstonejs/cornerstoneTools/commits?author=kevinleedrum "Code") | [<img src="https://avatars3.githubusercontent.com/u/11224291?v=4" width="100px;" alt="Makarand Bauskar"/><br /><sub><b>Makarand Bauskar</b></sub>](https://github.com/mmbauskar)<br />[💻](https://github.com/cornerstonejs/cornerstoneTools/commits?author=mbauskar "Code") | [<img src="https://avatars0.githubusercontent.com/u/1713255?v=4" width="100px;" alt="Biharck Araujo"/><br /><sub><b>Biharck Araujo</b></sub>](http://www.biharck.com.br)<br />[💡](#example-biharck "Examples") [📖](https://github.com/cornerstonejs/cornerstoneTools/commits?author=biharck "Documentation") | [<img src="https://avatars3.githubusercontent.com/u/5349517?v=4" width="100px;" alt="Devon Bernard"/><br /><sub><b>Devon Bernard</b></sub>](https://www.linkedin.com/in/devonbernard)<br />[📖](https://github.com/cornerstonejs/cornerstoneTools/commits?author=DevonBernard "Documentation") | [<img src="https://avatars2.githubusercontent.com/u/38315992?v=4" width="100px;" alt="Karl-Heinrich"/><br /><sub><b>Karl-Heinrich</b></sub>](https://github.com/Karl-Heinrich)<br />[🐛](https://github.com/cornerstonejs/cornerstoneTools/issues?q=author%3AKarl-Heinrich "Bug reports") [💻](https://github.com/cornerstonejs/cornerstoneTools/commits?author=Karl-Heinrich "Code") [⚠️](https://github.com/cornerstonejs/cornerstoneTools/commits?author=Karl-Heinrich "Tests") | [<img src="https://avatars0.githubusercontent.com/u/15172026?v=4" width="100px;" alt="counterxing"/><br /><sub><b>counterxing</b></sub>](https://blog.xingbofeng.com/)<br />[🐛](https://github.com/cornerstonejs/cornerstoneTools/issues?q=author%3Axingbofeng "Bug reports") [💻](https://github.com/cornerstonejs/cornerstoneTools/commits?author=xingbofeng "Code") | [<img src="https://avatars0.githubusercontent.com/u/50026015?v=4" width="100px;" alt="Jorge Lopes"/><br /><sub><b>Jorge Lopes</b></sub>](https://github.com/jlopes90)<br />[💬](#question-jlopes90 "Answering Questions") |
 | [<img src="https://avatars2.githubusercontent.com/u/5546851?v=4" width="100px;" alt="Gabriel Garrido"/><br /><sub><b>Gabriel Garrido</b></sub>](http://garrido.io)<br />[💻](https://github.com/cornerstonejs/cornerstoneTools/commits?author=Ggpsv "Code") | [<img src="https://avatars0.githubusercontent.com/u/4126256?v=4" width="100px;" alt="ASVBPREAUBV"/><br /><sub><b>ASVBPREAUBV</b></sub>](https://github.com/ASVBPREAUBV)<br />[📖](https://github.com/cornerstonejs/cornerstoneTools/commits?author=ASVBPREAUBV "Documentation") | [<img src="https://avatars0.githubusercontent.com/u/50960211?v=4" width="100px;" alt="frolic06"/><br /><sub><b>frolic06</b></sub>](https://github.com/frolic06)<br />[💻](https://github.com/cornerstonejs/cornerstoneTools/commits?author=frolic06 "Code") | [<img src="https://avatars2.githubusercontent.com/u/26968918?v=4" width="100px;" alt="codepage949"/><br /><sub><b>codepage949</b></sub>](https://github.com/codepage949)<br />[💻](https://github.com/cornerstonejs/cornerstoneTools/commits?author=codepage949 "Code") | [<img src="https://avatars.githubusercontent.com/u/1915?v=4" width="100px;" alt="Asherah Connor"/><br /><sub><b>Asherah Connor</b></sub>](https://kivikakk.ee)<br />[💻](https://github.com/cornerstonejs/cornerstoneTools/commits?author=kivikakk "Code") | [<img src="https://avatars.githubusercontent.com/u/22633385?v=4" width="100px;" alt="Ikko Ashimine"/><br /><sub><b>Ikko Ashimine</b></sub>](https://bandism.net/)<br />[🐛](https://github.com/cornerstonejs/cornerstoneTools/issues?q=author%3Aeltociear "Bug reports") | [<img src="https://avatars.githubusercontent.com/u/27778909?v=4" width="100px;" alt="Bill Wallace"/><br /><sub><b>Bill Wallace</b></sub>](https://github.com/wayfarer3130)<br />[💻](https://github.com/cornerstonejs/cornerstoneTools/commits?author=wayfarer3130 "Code") [📖](https://github.com/cornerstonejs/cornerstoneTools/commits?author=wayfarer3130 "Documentation") |
 | [<img src="https://avatars.githubusercontent.com/u/3341923?v=4" width="100px;" alt="Bruno Alves de Faria"/><br /><sub><b>Bruno Alves de Faria</b></sub>](http://radicalimaging.com/)<br />[🐛](https://github.com/cornerstonejs/cornerstoneTools/issues?q=author%3Abrunoalvesdefaria "Bug reports") [💻](https://github.com/cornerstonejs/cornerstoneTools/commits?author=brunoalvesdefaria "Code") [🖋](#content-brunoalvesdefaria "Content") [📖](https://github.com/cornerstonejs/cornerstoneTools/commits?author=brunoalvesdefaria "Documentation") [🔌](#plugin-brunoalvesdefaria "Plugin/utility libraries") [👀](#review-brunoalvesdefaria "Reviewed Pull Requests") [⚠️](https://github.com/cornerstonejs/cornerstoneTools/commits?author=brunoalvesdefaria "Tests") [🔧](#tool-brunoalvesdefaria "Tools") [📓](#userTesting-brunoalvesdefaria "User Testing") | [<img src="https://avatars.githubusercontent.com/u/13886933?v=4" width="100px;" alt="Igor Octaviano"/><br /><sub><b>Igor Octaviano</b></sub>](http://igoroctaviano.com)<br />[💻](https://github.com/cornerstonejs/cornerstoneTools/commits?author=igoroctaviano "Code") [📖](https://github.com/cornerstonejs/cornerstoneTools/commits?author=igoroctaviano "Documentation") [🚧](#maintenance-igoroctaviano "Maintenance") [👀](#review-igoroctaviano "Reviewed Pull Requests") [📓](#userTesting-igoroctaviano "User Testing") |
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors][all-contributors] specification.
@@ -197,34 +217,4 @@ or file an issue on GitHub.
 
 - [Google Group][google-group]
 
-## LICENSE
-
-MIT
-
-<!--
-Links:
--->
-
-<!-- prettier-ignore-start -->
-[build-badge]: https://circleci.com/gh/cornerstonejs/cornerstoneTools/tree/master.svg?style=svg
-[build]: https://circleci.com/gh/cornerstonejs/cornerstoneTools/tree/master
-[contributing]: https://github.com/cornerstonejs/cornerstoneTools/blob/master/CONTRIBUTING.md
-[coverage-badge]: https://codecov.io/gh/cornerstonejs/cornerstoneTools/branch/master/graphs/badge.svg
-[coverage]: https://codecov.io/gh/cornerstonejs/cornerstoneTools/branch/master
-[npm-url]: https://npmjs.org/package/cornerstone-tools
-[npm-downloads-image]: http://img.shields.io/npm/dm/cornerstone-tools.svg?style=flat
-[npm-version-image]: http://img.shields.io/npm/v/cornerstone-tools.svg?style=flat
-[license-image]: http://img.shields.io/badge/license-MIT-blue.svg?style=flat
-[license-url]: LICENSE
-[version-2]: https://github.com/cornerstonejs/cornerstoneTools/tree/v2.4.x
-[node]: https://nodejs.org
-[ohif-demo]: https://viewer.ohif.org/demo-signin
-[ohif-source]: https://github.com/OHIF/Viewers
-[emojis]: https://github.com/kentcdodds/all-contributors#emoji-key
-[all-contributors]: https://github.com/kentcdodds/all-contributors
-[bugs]: https://github.com/cornerstonejs/cornerstoneTools/issues?q=is%3Aissue+is%3Aopen+label%3A"🐛+Bug%3A+Verified"+sort%3Acreated-desc
-[requests-feature]: https://github.com/cornerstonejs/cornerstoneTools/issues?q=is%3Aissue+sort%3Areactions-%2B1-desc+label%3A"💻+Change%3A+Feature"+is%3Aopen
-[requests-implementation]: https://github.com/cornerstonejs/cornerstoneTools/issues?q=is%3Aissue+sort%3Areactions-%2B1-desc+label%3A"💻+Change%3A+Implementation"+is%3Aopen
-[good-first-issue]: https://github.com/cornerstonejs/cornerstoneTools/issues?utf8=✓&q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc+label%3A"🥇+Good+First+Issue"
-[google-group]: https://groups.google.com/forum/#!forum/cornerstone-platform
-<!-- prettier-ignore-end -->
+</div>

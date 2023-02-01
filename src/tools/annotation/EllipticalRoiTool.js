@@ -49,9 +49,11 @@ export default class EllipticalRoiTool extends BaseAnnotationTool {
       configuration: {
         // showMinMax: false,
         // showHounsfieldUnits: true,
+        drawHandles: true,
         drawHandlesOnHover: false,
         hideHandlesIfMoving: false,
         renderDashed: false,
+        displayStats: false,
       },
       svgCursor: ellipticalRoiCursor,
     };
@@ -235,7 +237,7 @@ export default class EllipticalRoiTool extends BaseAnnotationTool {
 
         const ellipseOptions = { color };
 
-        if (renderDashed) {
+        if (renderDashed || data.hasDashedBorder) {
           ellipseOptions.lineDash = lineDash;
         }
 
@@ -249,7 +251,9 @@ export default class EllipticalRoiTool extends BaseAnnotationTool {
           'pixel',
           data.handles.initialRotation
         );
-        drawHandles(context, eventData, data.handles, handleOptions);
+        if (this.configuration.drawHandles) {
+          drawHandles(context, eventData, data.handles, handleOptions);
+        }
 
         // Update textbox stats
         if (data.invalidated === true) {
@@ -282,19 +286,20 @@ export default class EllipticalRoiTool extends BaseAnnotationTool {
         );
 
         data.unit = _getUnit(modality, this.configuration.showHounsfieldUnits);
-
-        drawLinkedTextBox(
-          context,
-          element,
-          data.handles.textBox,
-          textBoxContent,
-          data.handles,
-          textBoxAnchorPoints,
-          color,
-          lineWidth,
-          10,
-          true
-        );
+        if (this.configuration.displayStats) {
+          drawLinkedTextBox(
+            context,
+            element,
+            data.handles.textBox,
+            textBoxContent,
+            data.handles,
+            textBoxAnchorPoints,
+            color,
+            lineWidth,
+            10,
+            true
+          );
+        }
       }
     });
   }
