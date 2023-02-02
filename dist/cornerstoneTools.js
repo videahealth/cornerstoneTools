@@ -1,4 +1,4 @@
-/*! cornerstone-tools - 6.0.6-f - 2023-02-01 | (c) 2017 Chris Hafey | https://github.com/cornerstonejs/cornerstoneTools */
+/*! cornerstone-tools - 6.0.6-f - 2023-02-02 | (c) 2017 Chris Hafey | https://github.com/cornerstonejs/cornerstoneTools */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "fc32f2a588b6fd935b93";
+/******/ 	var hotCurrentHash = "85acf26ed7487dc4862e";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -23968,7 +23968,7 @@ var EllipticalRoiTool = /*#__PURE__*/function (_BaseAnnotationTool) {
           };
 
           if (renderDashed || data.hasDashedBorder) {
-            var dashSpacing = data.lineDash;
+            var dashSpacing = data.spaceBetweenDashes;
 
             if (dashSpacing && Array.isArray(dashSpacing) && dashSpacing.length === 2) {
               ellipseOptions.lineDash = dashSpacing;

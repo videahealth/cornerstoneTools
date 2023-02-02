@@ -238,7 +238,7 @@ export default class EllipticalRoiTool extends BaseAnnotationTool {
         const ellipseOptions = { color };
 
         if (renderDashed || data.hasDashedBorder) {
-          const dashSpacing = data.lineDash;
+          const dashSpacing = data.spaceBetweenDashes;
 
           if (
             dashSpacing &&
