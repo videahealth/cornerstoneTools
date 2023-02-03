@@ -1,4 +1,4 @@
-/*! cornerstone-tools - 6.0.6-e - 2023-01-11 | (c) 2017 Chris Hafey | https://github.com/cornerstonejs/cornerstoneTools */
+/*! cornerstone-tools - 6.0.6-f - 2023-02-02 | (c) 2017 Chris Hafey | https://github.com/cornerstonejs/cornerstoneTools */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "18c1d53c08779f6e2e6d";
+/******/ 	var hotCurrentHash = "85acf26ed7487dc4862e";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -23968,7 +23968,13 @@ var EllipticalRoiTool = /*#__PURE__*/function (_BaseAnnotationTool) {
           };
 
           if (renderDashed || data.hasDashedBorder) {
-            ellipseOptions.lineDash = lineDash;
+            var dashSpacing = data.spaceBetweenDashes;
+
+            if (dashSpacing && Array.isArray(dashSpacing) && dashSpacing.length === 2) {
+              ellipseOptions.lineDash = dashSpacing;
+            } else {
+              ellipseOptions.lineDash = lineDash;
+            }
           } // Draw
 
 
@@ -38668,7 +38674,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ('6.0.6-e');
+/* harmony default export */ __webpack_exports__["default"] = ('6.0.6-f');
 
 /***/ })
 
