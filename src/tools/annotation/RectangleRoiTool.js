@@ -215,8 +215,10 @@ export default class RectangleRoiTool extends BaseAnnotationTool {
 
         const rectOptions = { color };
 
-        if (renderDashed) {
-          rectOptions.lineDash = lineDash;
+        if (renderDashed || data.hasDashedBorder) {
+          rectOptions.lineDash = data.spaceBetweenDashes
+            ? data.spaceBetweenDashes
+            : lineDash;
         }
 
         // Draw

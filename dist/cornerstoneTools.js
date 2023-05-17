@@ -1,4 +1,4 @@
-/*! cornerstone-tools - 6.0.6-f - 2023-02-02 | (c) 2017 Chris Hafey | https://github.com/cornerstonejs/cornerstoneTools */
+/*! cornerstone-tools - 6.0.6-f - 2023-05-17 | (c) 2017 Chris Hafey | https://github.com/cornerstonejs/cornerstoneTools */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "85acf26ed7487dc4862e";
+/******/ 	var hotCurrentHash = "131cf838e15cecb3e2b9";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -26862,8 +26862,8 @@ var RectangleRoiTool = /*#__PURE__*/function (_BaseAnnotationTool) {
             color: color
           };
 
-          if (renderDashed) {
-            rectOptions.lineDash = lineDash;
+          if (renderDashed || data.hasDashedBorder) {
+            rectOptions.lineDash = data.spaceBetweenDashes ? data.spaceBetweenDashes : lineDash;
           } // Draw
 
 
