@@ -1,4 +1,4 @@
-/*! cornerstone-tools - 6.0.6-g - 2023-06-01 | (c) 2017 Chris Hafey | https://github.com/cornerstonejs/cornerstoneTools */
+/*! cornerstone-tools - 6.0.6-g - 2023-06-02 | (c) 2017 Chris Hafey | https://github.com/cornerstonejs/cornerstoneTools */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "74a12985ca5ea83660cc";
+/******/ 	var hotCurrentHash = "c3e7da547908b85f0a38";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -26640,7 +26640,7 @@ function (_BaseAnnotationTool) {
           // const color = toolColors.getColorIfActive(data);
 
 
-          var color = 'rgba(255, 80,95, .5)'; // Const handleOptions = {
+          var color = 'rgba(255, 80,95, .25)'; // Const handleOptions = {
           //   color,
           //   handleRadius,
           //   drawHandlesIfActive: drawHandlesOnHover,
@@ -26669,6 +26669,7 @@ function (_BaseAnnotationTool) {
           var tagOffset = 22;
           var tagPadding = 4;
           var tagColor = 'rgba(255, 80,95, 1)';
+          var tagCrosshairColor = 'rgba(255, 80,95, .75)';
           var tagTextColor = '#fff';
           var tagText = 'Ca';
           var tagCrosshairSize = 10;
@@ -26695,7 +26696,7 @@ function (_BaseAnnotationTool) {
           var drawCrosshair = function drawCrosshair(corner, x, y) {
             context.beginPath();
             context.lineWidth = tagCrosshairWidth;
-            context.strokeStyle = tagColor;
+            context.strokeStyle = tagCrosshairColor;
 
             switch (corner) {
               case 'top-left':
@@ -26737,7 +26738,6 @@ function (_BaseAnnotationTool) {
           };
 
           crosshairCoordinates.forEach(function (coordinate) {
-            console.log(coordinate);
             drawCrosshair(coordinate.corner, coordinate.x, coordinate.y);
           });
           context.fillStyle = tagColor;

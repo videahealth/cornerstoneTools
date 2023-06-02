@@ -204,7 +204,7 @@ export default class RectangleRoiTool extends BaseAnnotationTool {
 
         // Configure
         // const color = toolColors.getColorIfActive(data);
-        const color = 'rgba(255, 80,95, .5)';
+        const color = 'rgba(255, 80,95, .25)';
         // Const handleOptions = {
         //   color,
         //   handleRadius,
@@ -247,6 +247,7 @@ export default class RectangleRoiTool extends BaseAnnotationTool {
         const tagOffset = 22;
         const tagPadding = 4;
         const tagColor = 'rgba(255, 80,95, 1)';
+        const tagCrosshairColor = 'rgba(255, 80,95, .75)';
         const tagTextColor = '#fff';
         const tagText = 'Ca';
         const tagCrosshairSize = 10;
@@ -282,7 +283,7 @@ export default class RectangleRoiTool extends BaseAnnotationTool {
         const drawCrosshair = (corner, x, y) => {
           context.beginPath();
           context.lineWidth = tagCrosshairWidth;
-          context.strokeStyle = tagColor;
+          context.strokeStyle = tagCrosshairColor;
 
           switch (corner) {
             case 'top-left':
