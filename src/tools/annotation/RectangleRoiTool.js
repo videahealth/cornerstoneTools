@@ -203,13 +203,14 @@ export default class RectangleRoiTool extends BaseAnnotationTool {
         }
 
         // Configure
-        const color = toolColors.getColorIfActive(data);
-        const handleOptions = {
-          color,
-          handleRadius,
-          drawHandlesIfActive: drawHandlesOnHover,
-          hideHandlesIfMoving,
-        };
+        // const color = toolColors.getColorIfActive(data);
+        const color = 'rgba(255, 80,95, .25)';
+        // Const handleOptions = {
+        //   color,
+        //   handleRadius,
+        //   drawHandlesIfActive: drawHandlesOnHover,
+        //   hideHandlesIfMoving,
+        // };
 
         setShadow(context, this.configuration);
 
@@ -232,9 +233,122 @@ export default class RectangleRoiTool extends BaseAnnotationTool {
           data.handles.initialRotation
         );
 
-        if (this.configuration.drawHandles && data.source !== 'AI') {
-          drawHandles(context, eventData, data.handles, handleOptions);
-        }
+        const cornerstone = external.cornerstone;
+        const topCorner = cornerstone.pixelToCanvas(
+          element,
+          data.handles.start
+        );
+        const botCorner = cornerstone.pixelToCanvas(element, data.handles.end);
+        const theWidth = Math.abs(topCorner.x - botCorner.x);
+        const theHeight = Math.abs(topCorner.y - botCorner.y);
+        const tagWidth = 16;
+        const tagHeight = 15;
+        const tagRound = 2;
+        const tagOffset = 22;
+        const tagPadding = 4;
+        const tagColor = 'rgba(255, 80,95, 1)';
+        const tagCrosshairColor = 'rgba(255, 80,95, .75)';
+        const tagTextColor = '#fff';
+        const tagText = 'Ca';
+        const tagCrosshairSize = 10;
+        const tagCrosshair =
+          theWidth < tagCrosshairSize || theHeight < tagCrosshairSize
+            ? theWidth
+            : tagCrosshairSize;
+        const tagCrosshairWidth = 2;
+
+        const crosshairCoordinates = [
+          {
+            corner: 'top-left',
+            x: topCorner.x,
+            y: topCorner.y,
+          },
+          {
+            corner: 'top-right',
+            x: botCorner.x,
+            y: topCorner.y,
+          },
+          {
+            corner: 'bot-left',
+            x: topCorner.x,
+            y: botCorner.y,
+          },
+          {
+            corner: 'bot-right',
+            x: botCorner.x,
+            y: botCorner.y,
+          },
+        ];
+
+        const drawCrosshair = (corner, x, y) => {
+          context.beginPath();
+          context.lineWidth = tagCrosshairWidth;
+          context.strokeStyle = tagCrosshairColor;
+
+          switch (corner) {
+            case 'top-left':
+              context.moveTo(x, y);
+              context.lineTo(x + tagCrosshair, y);
+              context.stroke();
+              context.moveTo(x, y);
+              context.lineTo(x, y + tagCrosshair);
+              context.stroke();
+              break;
+            case 'top-right':
+              context.moveTo(x, y);
+              context.lineTo(x - tagCrosshair, y);
+              context.stroke();
+              context.moveTo(x, y);
+              context.lineTo(x, y + tagCrosshair);
+              context.stroke();
+              break;
+            case 'bot-left':
+              context.moveTo(x, y);
+              context.lineTo(x + tagCrosshair, y);
+              context.stroke();
+              context.moveTo(x, y);
+              context.lineTo(x, y - tagCrosshair);
+              context.stroke();
+              break;
+            case 'bot-right':
+              context.moveTo(x, y);
+              context.lineTo(x - tagCrosshair, y);
+              context.stroke();
+              context.moveTo(x, y);
+              context.lineTo(x, y - tagCrosshair);
+              context.stroke();
+              break;
+          }
+        };
+
+        crosshairCoordinates.forEach(coordinate => {
+          drawCrosshair(coordinate.corner, coordinate.x, coordinate.y);
+        });
+
+        context.fillStyle = tagColor;
+        context.strokeStyle = tagColor;
+        context.font = 'bold 9px sans-serif';
+        context.beginPath();
+        context.roundRect(
+          topCorner.x,
+          topCorner.y - tagOffset,
+          tagWidth,
+          tagHeight,
+          tagRound
+        );
+        context.stroke();
+        context.fill();
+        context.fillStyle = tagTextColor;
+        context.textAlign = 'center';
+        context.fillText(
+          tagText,
+          topCorner.x + 2 * tagPadding,
+          topCorner.y - (tagHeight - tagPadding)
+        );
+
+        // If (this.configuration.drawHandles && data.source !== 'AI') {
+        //   drawHandles(context, eventData, data.handles, handleOptions);
+        // }
 
         // Update textbox stats
         if (data.invalidated === true) {
