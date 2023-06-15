@@ -93,7 +93,7 @@
     "webpack-dev-server": "^3.7.2"
   },
   "dependencies": {
-    "@babel/runtime": "7.1.2",
+    "@babel/runtime": "7.21.5",
     "cornerstone-math": "0.1.9"
   },
   "files": [
